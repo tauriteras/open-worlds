@@ -1,3 +1,5 @@
+import { InteractionManager } from 'three.interactive';
+
 import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
 
@@ -21,7 +23,7 @@ class World {
 
         this.hasWeatherMachine = false;
         this.weather = "Sunny";
-        
+
     }
 
     load(scene) {

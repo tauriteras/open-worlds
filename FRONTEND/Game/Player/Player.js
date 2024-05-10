@@ -1,6 +1,7 @@
 import * as THREE from "three"
 
 import player from "../../mock-dev-data/playerinfo.json"
+import { world } from "../Index";
 
 class Player {
 
@@ -54,28 +55,57 @@ class Player {
 
     }
 
+    update(dt) {
+
+        // Gravity
+        
+        let gravityStrenght = 10 * dt * dt;
+
+        let roundedX = Math.round(this.position.x)
+        let roundedY = Math.round(this.position.y + 0.5)
+
+        for (let i = 0; i < world.blocksData.blocks.length; i++){
+
+            let block = world.blocksData.blocks[i];
+
+            if (
+                block.position.x === roundedX && block.position.y === (roundedY - 1)
+            ) {
+
+                gravityStrenght = 0;
+
+            }
+
+        }
+
+        this.position.y -= gravityStrenght;
+
+        this.object.position.y = this.position.y;
+        this.object.position.x = this.position.x;
+    
+    }
+
     jump(dt) {
+
+        this.position.y += 0.01;
 
     }
 
     moveLeft(dt) {
 
         this.position.x -= this.velocity * dt;
-        this.object.position.x = this.position.x;
 
     }
 
     moveRight(dt) {
 
         this.position.x += this.velocity * dt;
-        this.object.position.x = this.position.x;
 
     }
 
     moveDown(dt) {
 
         this.position.y -= this.velocity * dt;
-        this.object.position.y = this.position.y;
 
     }
 
