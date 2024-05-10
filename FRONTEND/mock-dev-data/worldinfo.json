@@ -1,0 +1,74 @@
+{
+    "name": "WWORLDNAME",
+    "owner": "none",
+    "admins": "",
+    "blockdata": {
+        "blocks": [
+            {
+                "id": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 1,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 2,
+                    "y": 0
+                }
+            }
+        ],
+        "backgroundblocks": [
+            {
+                "id": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 1,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 2,
+                    "y": 0
+                }
+            },
+            {
+                "id": 0,
+                "position": {
+                    "x": 3,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 4,
+                    "y": 0
+                }
+            }, 
+            {
+                "id": 0,
+                "position": {
+                    "x": 5,
+                    "y": 0
+                }
+            }
+        ]
+    }
+}
