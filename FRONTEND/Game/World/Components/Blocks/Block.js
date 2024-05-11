@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 class Block {
 
-    constructor(id, x, y, isForeground) {
+    constructor(id, x, y, isForeground, data) {
 
         this.width = 1;
         this.height = 1;
@@ -28,9 +28,17 @@ class Block {
 
         this.object = undefined;
 
+        this.data = data;
+
+        this.timeSinceLastHit = 0;
+
+        this.punchCount = 0;
+
+        this.hardness = 3;
+
     }
 
-    render(id) {
+    render(index) {
 
         const plane = new THREE.PlaneGeometry(this.width, this.height);
 
@@ -42,7 +50,7 @@ class Block {
         const mesh = new THREE.Mesh(plane, material);
         
         mesh.name = 'Block';
-        mesh.userData.id = id;
+        mesh.userData.index = index;
         mesh.position.x = this.position.x;
         mesh.position.y = this.position.y;
 
@@ -55,6 +63,31 @@ class Block {
         this.object = mesh;
 
        return mesh;
+
+    }
+
+    breakAnimation() {
+
+        const plane = new THREE.PlaneGeometry(this.width, this.height);
+
+        const material = new THREE.MeshBasicMaterial({ 
+            side: THREE.DoubleSide,
+            transparent: true,
+         });
+
+        if (this.punchCount / this.hardness <= .20) {
+            material.color = new THREE.Color("red")
+        }
+
+        if (this.punchCount / this.hardness <= .40 && this.punchCount / this.hardness > .20) {
+            material.color = new THREE.Color("green")
+        }
+
+        console.log(this.punchCount / this.hardness)
+
+        const mesh = new THREE.Mesh(plane, material);
+
+        this.object.add(mesh);
 
     }
 };
