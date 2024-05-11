@@ -53,6 +53,25 @@ class World {
         }
 
     }
+
+    updateBlock(index, isBackground) {
+
+        let blockToUpdate;
+
+        if (isBackground) {
+
+            blockToUpdate = this.blocksData.backgroundBlocks[index];
+
+        }
+
+        if(!isBackground) {
+
+            blockToUpdate = this.blocksData.blocks[index];
+            
+        }
+
+    }
+
 };
 
 export default World;

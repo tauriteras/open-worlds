@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import Camera from '../Game/Camera/Camera'
 import World from './World/World';
 import Player from './Player/Player';
-import SmallLock from './World/Components/Locks/SmallLock';
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -24,29 +23,56 @@ let world = new World();
 world.load(scene);
 
 let player = new Player();
-scene.add(player.spawn());
+player.spawn(scene);
 
 function animate() {
 
 	if (player.movement.jump == true) {
+
 		player.jump(dt)
+
 	}
 
 	if (player.movement.left == true) {
+
 		player.moveLeft(dt)
+
 	}
 
 	if (player.movement.right == true) {
+
 		player.moveRight(dt)
+
 	}
 
 	if (player.movement.down == true) {
+
 		player.moveDown(dt)
+
+	}
+	
+
+	if (mousedown === true && player.mouseAction === "Punch") {
+
+		player.punch();
+
 	}
 
-	if (mousedown === true) {
+	if (mousedown === true && player.mouseAction === "Build") {
 
-		console.log(intersects)
+		player.build();
+
+	}
+
+	if (mousedown === true && player.mouseAction === "Plant") {
+
+		player.plant();
+
+	}
+
+	if (mousedown === true && player.mouseAction === "Settings") {
+
+		player.settings();
 
 	}
 
@@ -63,10 +89,6 @@ function animate() {
 
 	renderer.render( scene, camera.cameraObject );
 }
-
-document.body.appendChild( renderer.domElement );
-
-animate();
 
 document.addEventListener("keydown", (e) => {
 
@@ -152,5 +174,9 @@ document.addEventListener("pointerleave", () => {
 	mousedown = false;
 
 })
+
+document.body.appendChild( renderer.domElement );
+
+animate();
 
 export { world }

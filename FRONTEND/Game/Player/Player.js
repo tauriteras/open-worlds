@@ -15,10 +15,14 @@ class Player {
 
         this.velocity = 5;
 
+        this.jumpStrenght = 3.75;
+
         this.position = {
-            x: 0,
-            y: 1,
-            z: 0.0100
+            x: 1,
+            y: 3,
+            z: 0.0100,
+            roundedX: 0,
+            roundedY: 1
         }
 
         this.movement = {
@@ -28,11 +32,29 @@ class Player {
             down: false
         }
 
+        this.collisions = {
+            top: false,
+            bottom: false,
+            left: false,
+            right: false
+        }
+
+        this.collidesWith = {
+            top: undefined,
+            bottom: undefined,
+            left: undefined,
+            right: undefined
+        }
+
+        this.airTime = 0.5;
+
+        this.mouseAction = "Punch";
+
         this.object = undefined;
 
     }
 
-    spawn() {
+    spawn(scene) {
 
         const plane = new THREE.PlaneGeometry(this.width, this.height);
 
@@ -51,34 +73,47 @@ class Player {
 
         this.object = mesh;
 
-        return mesh;
+        scene.add(mesh)
 
     }
 
     update(dt) {
 
         // Gravity
-        
-        let gravityStrenght = 10 * dt * dt;
-
-        let roundedX = Math.round(this.position.x)
-        let roundedY = Math.round(this.position.y + 0.5)
+        this.airTime += dt;
+        let gravityStrenght = (1 * (this.airTime * this.airTime));
 
         for (let i = 0; i < world.blocksData.blocks.length; i++){
 
             let block = world.blocksData.blocks[i];
 
             if (
-                block.position.x === roundedX && block.position.y === (roundedY - 1)
+                (
+                    block.position.x === this.position.roundedX ||
+                    block.position.x - 0.45 > this.position.x ||
+                    block.position.x + 0.45 < this.position.x
+                ) 
+                &&
+                (
+                    block.position.y === (Math.round(this.position.y + 0.5) - 1)
+                )
             ) {
 
+                console.log("collision", block.position)
+
+                this.collidesWith.bottom = block;
+
                 gravityStrenght = 0;
+                this.airTime = 0.5;
 
             }
 
         }
 
-        this.position.y -= gravityStrenght;
+        this.position.y -= gravityStrenght * dt;
+
+        this.position.roundedX = Math.round(this.position.x)
+        this.position.roundedY = Math.round(this.position.y)
 
         this.object.position.y = this.position.y;
         this.object.position.x = this.position.x;
@@ -87,7 +122,7 @@ class Player {
 
     jump(dt) {
 
-        this.position.y += 0.01;
+        this.position.y += this.jumpStrenght * dt;
 
     }
 
@@ -99,6 +134,8 @@ class Player {
 
     moveRight(dt) {
 
+        console.log(this.position)
+
         this.position.x += this.velocity * dt;
 
     }
@@ -106,6 +143,22 @@ class Player {
     moveDown(dt) {
 
         this.position.y -= this.velocity * dt;
+
+    }
+
+    punch() {
+        
+    }
+
+    build() {
+
+    }
+
+    plant() {
+
+    }
+
+    settings() {
 
     }
 
