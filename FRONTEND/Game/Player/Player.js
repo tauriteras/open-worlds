@@ -47,6 +47,7 @@ class Player {
         }
 
         this.airTime = 0.5;
+        this.timeSinceLastPunch = 3;
 
         this.mouseAction = "Punch";
 
@@ -90,6 +91,8 @@ class Player {
     }
 
     update(dt) {
+
+        this.timeSinceLastPunch += dt;
 
         // Gravity
         this.airTime += dt;
@@ -188,7 +191,77 @@ class Player {
 
     }
 
-    punch() {
+    punch(intersects, dt) {
+
+        if (this.timeSinceLastPunch < 0.25) { return; }
+
+        this.timeSinceLastPunch = 0;
+
+        if (intersects === undefined) { return; }
+
+        let clicked = intersects[0];
+
+        if (clicked === undefined) { return; }
+
+        if (clicked.object.name === "Block") {
+
+            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
+
+            if (blockObject.id === 0) { return; }
+
+            blockObject.timeSinceLastHit = Date.now();
+            
+            blockObject.punchCount += 1;
+
+            blockObject.breakAnimation();
+
+        }
+
+        if (clicked.object.name === "BackgroundBlock") {
+
+            let blockObject = world.blocksData.backgroundBlocks[clicked.object.userData.index]
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
+
+        if (clicked.object.name.includes("Player_")) {
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
+
+        if (clicked.object.name === "Tree") {
+
+            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
+
+        if (clicked.object.name === "Sign") {
+
+            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
+
+        if (clicked.object.name === "Door") {
+
+            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
+
+        if (clicked.object.name === "EntryPoint") {
+
+            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
+
+            console.log(clicked.object.name, clicked.object.userData)
+
+        }
         
     }
 

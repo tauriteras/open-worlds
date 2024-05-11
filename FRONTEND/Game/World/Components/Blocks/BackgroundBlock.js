@@ -21,7 +21,7 @@ class BackgroundBlock {
 
     }
 
-    render(id) {
+    render(index) {
 
         const plane = new THREE.PlaneGeometry(this.width, this.height);
 
@@ -34,7 +34,7 @@ class BackgroundBlock {
         const mesh = new THREE.Mesh(plane, material);
         
         mesh.name = 'BackgroundBlock';
-        mesh.userData.id = id;
+        mesh.userData.index = index;
 
         mesh.position.x = this.position.x;
         mesh.position.y = this.position.y;
