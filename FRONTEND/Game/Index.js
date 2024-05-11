@@ -25,7 +25,23 @@ world.load(scene);
 let player = new Player();
 player.spawn(scene);
 
+const plane = new THREE.PlaneGeometry(0.1, 0.1);
+
+const material = new THREE.MeshBasicMaterial({ 
+	color: new THREE.Color("green"),
+	side: THREE.DoubleSide,
+	transparent: true,
+ });
+
+const mesh = new THREE.Mesh(plane, material);
+
+scene.add(mesh)
+
 function animate() {
+
+	mesh.position.x = player.position.x;
+	mesh.position.y = player.position.y;
+	mesh.position.z = 1;
 
 	if (player.movement.jump == true) {
 

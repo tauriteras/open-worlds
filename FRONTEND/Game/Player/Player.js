@@ -9,9 +9,9 @@ class Player {
 
         this.name = player.name;
 
-        this.width = 1;
+        this.width = 0.7;
 
-        this.height = 1;
+        this.height = 0.8;
 
         this.velocity = 5;
 
@@ -83,28 +83,20 @@ class Player {
         this.airTime += dt;
         let gravityStrenght = (1 * (this.airTime * this.airTime));
 
-        for (let i = 0; i < world.blocksData.blocks.length; i++){
+        for (let i = 0; i < world.blocksData.blocks.length; i++) {
 
             let block = world.blocksData.blocks[i];
 
             if (
-                (
-                    block.position.x === this.position.roundedX ||
-                    block.position.x - 0.45 > this.position.x ||
-                    block.position.x + 0.45 < this.position.x
-                ) 
+                ( ( (block.position.x - 0.8) < this.position.x ) && ( (block.position.x + 0.8) > this.position.x) )
                 &&
-                (
-                    block.position.y === (Math.round(this.position.y + 0.5) - 1)
-                )
+                ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2)) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2)) ) )
+                &&
+                block.id != 0
             ) {
 
-                console.log("collision", block.position)
-
-                this.collidesWith.bottom = block;
-
+                this.airTime = 0;
                 gravityStrenght = 0;
-                this.airTime = 0.5;
 
             }
 
@@ -128,13 +120,51 @@ class Player {
 
     moveLeft(dt) {
 
+        for (let i = 0; i < world.blocksData.blocks.length; i++) {
+
+            let block = world.blocksData.blocks[i];
+
+            if (
+                ( ( (block.position.x + 0.5) > (this.position.x - (this.width / 2) ) ) && ( (block.position.x - 0.5) < (this.position.x - (this.width / 2) ) ) )
+                &&
+                ( ( (block.position.y - 0.45 ) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.45) > (this.position.y - (this.height / 2) + 0.1 ) ) )
+                &&
+                block.id != 0
+            ) {
+
+                console.log(block.position, this.position)
+
+                return;
+
+            }
+
+        }
+
         this.position.x -= this.velocity * dt;
 
     }
 
     moveRight(dt) {
 
-        console.log(this.position)
+        for (let i = 0; i < world.blocksData.blocks.length; i++) {
+
+            let block = world.blocksData.blocks[i];
+
+            if (
+                ( ( (block.position.x + 0.5) > (this.position.x + (this.width / 2) ) ) && ( (block.position.x - 0.5) < (this.position.x + (this.width / 2) ) ) )
+                &&
+                ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2) + 0.1 ) ) )
+                &&
+                block.id != 0
+            ) {
+
+                console.log(block.position, this.position)
+
+                return;
+
+            }
+
+        }
 
         this.position.x += this.velocity * dt;
 
