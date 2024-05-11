@@ -64,16 +64,28 @@ class Player {
             transparent: true,
          });
 
-        const mesh = new THREE.Mesh(plane, material);
+        const hitbox = new THREE.Mesh(plane, material);
 
-        mesh.name = `Player_${this.name}`
+        hitbox.name = `Player_${this.name}`
 
-        mesh.position.x = this.position.x;
-        mesh.position.y = this.position.y;
+        hitbox.position.x = this.position.x;
+        hitbox.position.y = this.position.y;
 
-        this.object = mesh;
+        this.object = hitbox;
 
-        scene.add(mesh)
+        const playerPlane = new THREE.PlaneGeometry((this.width * 0.85), (this.height * 0.85));
+
+        const playerMaterial = new THREE.MeshBasicMaterial({ 
+            color: new THREE.Color("orange"),
+            side: THREE.DoubleSide,
+            transparent: true,
+         });
+
+        const player = new THREE.Mesh(playerPlane, playerMaterial);
+
+         hitbox.add(player)
+
+        scene.add(hitbox)
 
     }
 
