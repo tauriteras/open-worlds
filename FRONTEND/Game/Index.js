@@ -54,7 +54,7 @@ function animate() {
 
 	if (mousedown === true && player.mouseAction === "Punch") {
 
-		player.punch();
+		player.punch(intersects);
 
 	}
 

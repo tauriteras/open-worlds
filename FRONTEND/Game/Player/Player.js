@@ -47,6 +47,7 @@ class Player {
         }
 
         this.airTime = 0.5;
+        this.timeSinceLastPunch = 3;
 
         this.mouseAction = "Punch";
 
@@ -78,6 +79,8 @@ class Player {
     }
 
     update(dt) {
+
+        this.timeSinceLastPunch += dt;
 
         // Gravity
         this.airTime += dt;
@@ -176,7 +179,13 @@ class Player {
 
     }
 
-    punch(intersects) {
+    punch(intersects, dt) {
+
+        if (this.timeSinceLastPunch < 0.25) { return; }
+
+        this.timeSinceLastPunch = 0;
+
+        if (intersects === undefined) { return; }
 
         let clicked = intersects[0];
 
@@ -186,28 +195,13 @@ class Player {
 
             let blockObject = world.blocksData.blocks[clicked.object.userData.index]
 
-            console.log(clicked.object.name, clicked.object.userData, blockObject, clicked.object.userData.index)
-
+            if (blockObject.id === 0) { return; }
 
             blockObject.timeSinceLastHit = Date.now();
-
-            // Temporarily instabreak block
-            blockObject.id = 0;
-            blockObject.isForeground = false;
-            blockObject.collisions = {
-                top: true,
-                bottom: true,
-                left: true,
-                right: true
-            }
-            blockObject.timeSinceLastHit = 0;
+            
             blockObject.punchCount += 1;
 
-            blockObject.object.material.color = new THREE.Color("pink")
-
             blockObject.breakAnimation();
-
-            console.log(clicked.object.name, clicked.object.userData, blockObject)
 
         }
 

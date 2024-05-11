@@ -34,7 +34,7 @@ class Block {
 
         this.punchCount = 0;
 
-        this.hardness = 3;
+        this.hardness = 10;
 
     }
 
@@ -75,6 +75,8 @@ class Block {
             transparent: true,
          });
 
+        const mesh = new THREE.Mesh(plane, material);
+
         if (this.punchCount / this.hardness <= .20) {
             material.color = new THREE.Color("red")
         }
@@ -83,11 +85,41 @@ class Block {
             material.color = new THREE.Color("green")
         }
 
-        console.log(this.punchCount / this.hardness)
+        if (this.punchCount / this.hardness <= .60 && this.punchCount / this.hardness > .40) {
+            material.color = new THREE.Color("blue")
+        }
 
-        const mesh = new THREE.Mesh(plane, material);
+        if (this.punchCount / this.hardness <= .80 && this.punchCount / this.hardness > .60) {
+            material.color = new THREE.Color("yellow")
+        }
+
+        if (this.punchCount / this.hardness < 1 && this.punchCount / this.hardness > .80) {
+            material.color = new THREE.Color("orange")
+        }
 
         this.object.add(mesh);
+
+        if (this.punchCount === this.hardness) {
+
+            this.id = 0;
+            this.isForeground = false;
+  
+            this.timeSinceLastHit = 0;
+
+            this.punchCount = 0;
+
+            this.collisions = {
+                top: false,
+                bottom: false,
+                left: false,
+                right: false
+            }
+          
+            mesh.remove()
+
+            return;
+
+        }
 
     }
 };
