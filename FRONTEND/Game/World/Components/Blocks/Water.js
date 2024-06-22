@@ -1,8 +1,21 @@
 import * as THREE from "three"
+import Block from "./Block";
 
-class Water {
+class Water extends Block {
 
-    constructor() {
+    constructor(id, x, y) {
+
+        super()
+
+        this.id = id;
+
+        this.position = {
+
+            x: x,
+
+            y: y
+
+        }
 
     }
 

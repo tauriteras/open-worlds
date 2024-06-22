@@ -1,6 +1,7 @@
 import * as THREE from "three"
+import Block from "../Block";
 
-class WorldLock {
+class WorldLock extends Block {
 
     constructor() {
 
