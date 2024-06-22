@@ -4,9 +4,6 @@ class Block {
 
     constructor(id, x, y, isForeground, data) {
 
-        this.width = 1;
-        this.height = 1;
-
         this.id = id;
 
         this.position = {
@@ -40,7 +37,7 @@ class Block {
 
     render(index) {
 
-        const plane = new THREE.PlaneGeometry(this.width, this.height);
+        const plane = new THREE.PlaneGeometry(1, 1);
 
         const material = new THREE.MeshBasicMaterial({ 
             side: THREE.DoubleSide,
