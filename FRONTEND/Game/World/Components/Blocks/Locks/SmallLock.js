@@ -1,8 +1,9 @@
 import * as THREE from "three"
 
 import { world } from "../../../Index";
+import Block from "../Block";
 
-class SmallLock {
+class SmallLock extends Block {
 
     constructor(x, y) {
 

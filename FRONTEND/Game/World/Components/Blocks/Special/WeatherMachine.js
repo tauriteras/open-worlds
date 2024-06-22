@@ -1,6 +1,7 @@
 import * as THREE from "three"
+import Block from "../Block";
 
-class WeatherMachine {
+class WeatherMachine extends Block {
 
     constructor() {
 

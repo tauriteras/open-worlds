@@ -1,8 +1,14 @@
 import * as THREE from "three"
+import Block from "./Block";
 
-class Tree {
 
-    constructor() {
+class Tree extends Block {
+    
+    constructor(id, x, y) {
+
+        super()
+
+        this.id = id;
 
         this.position = {
 
@@ -18,34 +24,6 @@ class Tree {
             left: false,
             right: false
         }
-
-        this.object = undefined;
-
-    }
-
-    render(id) {
-
-        const plane = new THREE.PlaneGeometry(1, 1);
-
-        const material = new THREE.MeshBasicMaterial({ 
-            color: new THREE.Color("brown"),
-            side: THREE.DoubleSide,
-            transparent: true,
-         });
-
-        const mesh = new THREE.Mesh(plane, material);
-        
-        mesh.name = 'Tree';
-        mesh.userData.id = id;
-        mesh.position.x = this.position.x;
-        mesh.position.y = this.position.y;
-
-
-        mesh.position.z = 0.0010
-
-        this.object = mesh;
-        
-       return mesh;
 
     }
 

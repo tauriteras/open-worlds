@@ -1,6 +1,7 @@
 import * as THREE from "three"
+import Block from "../Block";
 
-class HugeLock {
+class HugeLock extends Block {
 
     constructor() {
 

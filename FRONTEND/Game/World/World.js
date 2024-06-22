@@ -4,6 +4,7 @@ import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
 
 import world from "../../mock-dev-data/worldinfo.json"
+import Door from './Components/Blocks/Door';
 
 class World {
 
@@ -27,6 +28,10 @@ class World {
     }
 
     load(scene) {
+
+        //    let door = new Door(11, 1, 1)
+          //  scene.add(door.render(11))
+            //console.log("door", door)
 
         for(let i = 0; i < world.blockdata.blocks.length; i++) {
     
