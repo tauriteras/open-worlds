@@ -6,7 +6,6 @@
         "blocks": [
             {
                 "id": 1,
-                "type": "Block",
                 "position": {
                     "x": 0,
                     "y": 0
@@ -41,10 +40,46 @@
                 "data": {}
             },
             {
-                "id": 1,
+                "id": 2,
                 "type": "Block",
                 "position": {
                     "x": 2,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 3,
+                "type": "Block",
+                "position": {
+                    "x": 3,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 4,
+                "type": "Block",
+                "position": {
+                    "x": 4,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 5,
+                "type": "Block",
+                "position": {
+                    "x": 4,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 6,
+                "type": "Block",
+                "position": {
+                    "x": 4,
                     "y": 1
                 },
                 "data": {}

@@ -1,0 +1,114 @@
+{
+    "0": {
+        "name": "Air",
+        "type": "Air",
+
+        "hardness": 0,
+        "breakable": false,
+
+        "collisions": {
+            "top": false,
+            "bottom": false,
+            "left": false,
+            "right": false
+        },
+
+        "textures": ["air"]
+    },
+    "1": {
+        "name": "Bedrock",
+        "type": "Block",
+
+        "hardness": 0,
+        "breakable": false,
+
+        "collisions": {
+            "top": true,
+            "bottom": true,
+            "left": true,
+            "right": true
+        },
+
+        "textures": ["bedrock"]
+    },
+    "2": {
+        "name": "Dirt Block",
+        "type": "Block",
+
+        "hardness": 3,
+        "breakable": true,
+
+        "collisions": {
+            "top": true,
+            "bottom": true,
+            "left": true,
+            "right": true
+        },
+
+        "textures": ["dirt", "dirt2"]
+    },
+    "3": {
+        "name": "Stone Block",
+        "type": "Block",
+
+        "hardness": 3,
+        "breakable": true,
+
+        "collisions": {
+            "top": true,
+            "bottom": true,
+            "left": true,
+            "right": true
+        },
+
+        "textures": ["stone"]
+    },
+    "4": {
+        "name": "Lava",
+        "type": "Block",
+
+        "hardness": 3,
+        "breakable": true,
+
+        "collisions": {
+            "top": true,
+            "bottom": true,
+            "left": true,
+            "right": true
+        },
+
+        "textures": ["lava"]
+    },
+    "5": {
+        "name": "dev_Tree",
+        "type": "Tree",
+
+        "hardness": 1,
+        "breakable": true,
+
+        "collisions": {
+            "top": false,
+            "bottom": false,
+            "left": false,
+            "right": false
+        },
+
+        "textures": ["wood"]
+    },
+    "6": {
+        "name": "Entry Point",
+        "type": "EntryPoint",
+
+        "hardness": 0,
+        "breakable": false,
+
+        "collisions": {
+            "top": false,
+            "bottom": false,
+            "left": false,
+            "right": false
+        },
+
+        "textures": ["entrydoor"]
+    }
+}

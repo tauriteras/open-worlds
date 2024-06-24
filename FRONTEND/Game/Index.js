@@ -19,11 +19,11 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 
 camera.initialize()
 
-let world = new World();
-world.load(scene);
+let world = new World(scene);
+world.load();
 
-let player = new Player();
-player.spawn(scene);
+let player = new Player(scene);
+player.spawn();
 
 function animate() {
 

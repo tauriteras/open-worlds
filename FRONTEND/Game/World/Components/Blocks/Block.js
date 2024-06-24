@@ -1,10 +1,14 @@
 import * as THREE from "three";
 
+import blockdata from "../../../../mock-dev-data/blockinfo.json"
+
 class Block {
 
     constructor(id, x, y, isForeground, data) {
 
-        this.id = id;
+        this.id = id || 0;
+
+        this.type = blockdata[this.id].type;
 
         this.position = {
 
@@ -16,12 +20,7 @@ class Block {
 
         this.isForeground = isForeground || false;
 
-        this.collisions = {
-            top: true,
-            bottom: true,
-            left: true,
-            right: true
-        }
+        this.collisions = undefined;
 
         this.object = undefined;
 
@@ -31,22 +30,30 @@ class Block {
 
         this.punchCount = 0;
 
-        this.hardness = 10;
+        this.hardness = undefined;
+        this.isBreakable = undefined;
 
     }
 
     render(index) {
 
+        this.hardness = blockdata[this.id].hardness
+        this.isBreakable = blockdata[this.id].breakable
+
+        this.collisions = blockdata[this.id].collisions
+
         const plane = new THREE.PlaneGeometry(1, 1);
 
         const material = new THREE.MeshBasicMaterial({ 
-            side: THREE.DoubleSide,
+            map: new THREE.TextureLoader().load("../../../../public/static/images/Blocks/" +
+             blockdata[this.id].textures[0] +
+              ".png"),
             transparent: true,
          });
 
         const mesh = new THREE.Mesh(plane, material);
         
-        mesh.name = 'Block';
+        mesh.name = "Block";
         mesh.userData.index = index;
         mesh.position.x = this.position.x;
         mesh.position.y = this.position.y;
@@ -65,58 +72,37 @@ class Block {
 
     breakAnimation() {
 
+        if (  this.object.children.length > 0 ) {
+            this.object.remove(this.object.children[0])
+        }
+
         const plane = new THREE.PlaneGeometry(this.width, this.height);
 
         const material = new THREE.MeshBasicMaterial({ 
+            map: new THREE.TextureLoader().load("../../../../public/static/images/Breaking/Breaking-1.png"),
             side: THREE.DoubleSide,
             transparent: true,
          });
 
         const mesh = new THREE.Mesh(plane, material);
 
-        if (this.punchCount / this.hardness <= .20) {
-            material.color = new THREE.Color("red")
-        }
-
         if (this.punchCount / this.hardness <= .40 && this.punchCount / this.hardness > .20) {
-            material.color = new THREE.Color("green")
+            material.map = new THREE.TextureLoader().load("../../../../public/static/images/Breaking/Breaking-2.png")
         }
 
         if (this.punchCount / this.hardness <= .60 && this.punchCount / this.hardness > .40) {
-            material.color = new THREE.Color("blue")
+            material.map = new THREE.TextureLoader().load("../../../../public/static/images/Breaking/Breaking-3.png")
         }
 
         if (this.punchCount / this.hardness <= .80 && this.punchCount / this.hardness > .60) {
-            material.color = new THREE.Color("yellow")
+            material.map = new THREE.TextureLoader().load("../../../../public/static/images/Breaking/Breaking-4.png")
         }
 
         if (this.punchCount / this.hardness < 1 && this.punchCount / this.hardness > .80) {
-            material.color = new THREE.Color("orange")
+            material.map = new THREE.TextureLoader().load("../../../../public/static/images/Breaking/Breaking-5.png")
         }
 
         this.object.add(mesh);
-
-        if (this.punchCount === this.hardness) {
-
-            this.id = 0;
-            this.isForeground = false;
-  
-            this.timeSinceLastHit = 0;
-
-            this.punchCount = 0;
-
-            this.collisions = {
-                top: false,
-                bottom: false,
-                left: false,
-                right: false
-            }
-          
-            mesh.remove()
-
-            return;
-
-        }
 
     }
 };
