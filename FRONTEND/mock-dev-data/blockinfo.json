@@ -110,5 +110,14 @@
         },
 
         "textures": ["entrydoor"]
+    },
+    "7": {
+        "name": "Cave Wall",
+        "type": "Background",
+
+        "hardness": 3,
+        "breakable": true,
+
+        "textures": ["cavewall"]
     }
 }

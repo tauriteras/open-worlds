@@ -3,6 +3,7 @@ import blockdata from "../../mock-dev-data/blockinfo.json"
 
 import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
+import BackgroundAir from "./Components/Blocks/Special/BackgroundAir"
 import Door from "./Components/Blocks/Door"
 import EntryPoint from "./Components/Blocks/EntryPoint"
 import Sign from "./Components/Blocks/Sign"
@@ -127,33 +128,38 @@ class World {
 
     updateBlock(index, newType, newId) {
 
-        let blockToUpdate = this.blocksData.blocks[index];
+        let blockToUpdate;
 
         let newBlock;
 
         switch(newType) {
 
             case "Air":
-
+                blockToUpdate = this.blocksData.blocks[index];
                 newBlock = new Air(blockToUpdate.position.x, blockToUpdate.position.y);
+                this.blocksData.blocks[index] = newBlock;
                 break;
 
             case "Block": 
-
+                blockToUpdate = this.blocksData.blocks[index];
                 newBlock = new Block(newId, blockToUpdate.position.x, blockToUpdate.position.y);
+                this.blocksData.blocks[index] = newBlock;
+                break;
+            case "BackgroundAir":
+                blockToUpdate = this.blocksData.backgroundBlocks[index];
+                newBlock = new BackgroundAir(blockToUpdate.position.x, blockToUpdate.position.y);
+                this.blocksData.backgroundBlocks[index] = newBlock;
+                break;
+            case "Background":
+                blockToUpdate = this.blocksData.backgroundBlocks[index];
+                newBlock = new BackgroundBlock(newId, blockToUpdate.position.x, blockToUpdate.position.y)
+                this.blocksData.backgroundBlocks[index] = newBlock;
                 break;
 
         }
 
-        console.log(this.blocksData.blocks[index])
-
-        this.blocksData.blocks[index] = newBlock;
-
-        console.log(this.blocksData.blocks[index])
-
+        this.scene.remove( blockToUpdate.object );
         this.scene.add( newBlock.render(index) );
-
-        this.scene.remove( blockToUpdate.object )
 
     }
 

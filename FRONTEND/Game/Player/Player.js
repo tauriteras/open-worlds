@@ -205,9 +205,17 @@ class Player {
 
         this.timeSinceLastPunch = 0;
 
-        if (intersects === undefined) { return; }
+        let clicked;
 
-        let clicked = intersects[0];
+        for (let i = 0; i < intersects.length; i++) {
+
+            if (clicked === undefined) {
+
+                clicked = intersects[i];
+
+            }
+
+        }
 
         if (clicked === undefined) { return; }
 
@@ -241,7 +249,22 @@ class Player {
 
             let blockObject = world.blocksData.backgroundBlocks[clicked.object.userData.index]
 
-            console.log(clicked.object.name, clicked.object.userData)
+            if (blockObject.id === 0) { return; }
+
+            blockObject.timeSinceLastHit = Date.now();
+            
+            blockObject.punchCount += 1;
+
+            blockObject.breakAnimation();
+
+            console.log(blockObject, "blovk")
+
+            if (blockObject.punchCount === blockObject.hardness) {
+                
+                world.updateBlock(blockObject.object.userData.index, "BackgroundAir");
+
+            }
+
 
         }
 
@@ -251,6 +274,8 @@ class Player {
 
         }
         
+        console.log("clicked", clicked, world.blocksData.backgroundBlocks[clicked.object.userData.index])
+
     }
 
     build(intersects) {
