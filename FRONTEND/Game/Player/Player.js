@@ -5,7 +5,7 @@ import { world } from "../Index";
 
 class Player {
 
-    constructor() {
+    constructor(scene) {
 
         this.name = player.name;
 
@@ -49,9 +49,13 @@ class Player {
         this.airTime = 0.5;
         this.timeSinceLastPunch = 3;
 
-        this.mouseAction = "Punch";
+        this.mouseAction = "Build";
+        this.selectedItemId = 3;
+        this.selectedItemType = "Block";
 
         this.object = undefined;
+
+        this.scene = scene;
 
     }
 
@@ -86,7 +90,7 @@ class Player {
 
          hitbox.add(player)
 
-        scene.add(hitbox)
+        this.scene.add(hitbox)
 
     }
 
@@ -108,6 +112,8 @@ class Player {
                 ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2)) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2)) ) )
                 &&
                 block.id != 0
+                &&
+                block.type != "Air"
             ) {
 
                 this.airTime = 0;
@@ -145,6 +151,8 @@ class Player {
                 ( ( (block.position.y - 0.45 ) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.45) > (this.position.y - (this.height / 2) + 0.1 ) ) )
                 &&
                 block.id != 0
+                &&
+                block.type != "Air"
             ) {
 
                 console.log(block.position, this.position)
@@ -171,6 +179,8 @@ class Player {
                 ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2) + 0.1 ) ) )
                 &&
                 block.id != 0
+                &&
+                block.type != "Air"
             ) {
 
                 console.log(block.position, this.position)
@@ -197,9 +207,17 @@ class Player {
 
         this.timeSinceLastPunch = 0;
 
-        if (intersects === undefined) { return; }
+        let clicked;
 
-        let clicked = intersects[0];
+        for (let i = 0; i < intersects.length; i++) {
+
+            if (clicked === undefined) {
+
+                clicked = intersects[i];
+
+            }
+
+        }
 
         if (clicked === undefined) { return; }
 
@@ -209,11 +227,23 @@ class Player {
 
             if (blockObject.id === 0) { return; }
 
+            if (blockObject.isBreakable === false) {
+
+                return;
+
+            }
+
             blockObject.timeSinceLastHit = Date.now();
             
             blockObject.punchCount += 1;
 
             blockObject.breakAnimation();
+
+            if (blockObject.punchCount === blockObject.hardness) {
+                
+                world.updateBlock(blockObject.object.userData.index, "Air");
+
+            }
 
         }
 
@@ -221,7 +251,22 @@ class Player {
 
             let blockObject = world.blocksData.backgroundBlocks[clicked.object.userData.index]
 
-            console.log(clicked.object.name, clicked.object.userData)
+            if (blockObject.id === 0) { return; }
+
+            blockObject.timeSinceLastHit = Date.now();
+            
+            blockObject.punchCount += 1;
+
+            blockObject.breakAnimation();
+
+            console.log(blockObject, "blovk")
+
+            if (blockObject.punchCount === blockObject.hardness) {
+                
+                world.updateBlock(blockObject.object.userData.index, "BackgroundAir");
+
+            }
+
 
         }
 
@@ -230,50 +275,62 @@ class Player {
             console.log(clicked.object.name, clicked.object.userData)
 
         }
-
-        if (clicked.object.name === "Tree") {
-
-            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
-
-            console.log(clicked.object.name, clicked.object.userData)
-
-        }
-
-        if (clicked.object.name === "Sign") {
-
-            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
-
-            console.log(clicked.object.name, clicked.object.userData)
-
-        }
-
-        if (clicked.object.name === "Door") {
-
-            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
-
-            console.log(clicked.object.name, clicked.object.userData)
-
-        }
-
-        if (clicked.object.name === "EntryPoint") {
-
-            let blockObject = world.blocksData.blocks[clicked.object.userData.index]
-
-            console.log(clicked.object.name, clicked.object.userData)
-
-        }
         
-    }
-
-    build() {
+        console.log("clicked", clicked, world.blocksData.backgroundBlocks[clicked.object.userData.index])
 
     }
 
-    plant() {
+    build(intersects) {
+
+        if (intersects === undefined) { return; }
+
+        let clicked;
+
+        for (let i = 0; i < intersects.length; i++) {
+
+            if (clicked === undefined) {
+
+                clicked = intersects[i];
+
+            }
+
+        }
+
+        console.log("clicked", clicked)
+
+        if (clicked === undefined) { return; }
+
+        if (clicked.object.name === "Air") {
+
+            world.updateBlock(clicked.object.userData.index, "Block", this.selectedItemId);
+
+        }
+
+        if (clicked.object.name === "BackgroundAir") {
+
+            world.updateBlock(clicked.object.userData.index, "Background", 7);
+
+        }
 
     }
 
-    settings() {
+    plant(intersects) {
+
+        if (intersects === undefined) { return; }
+
+        let clicked = intersects[0];
+
+        if (clicked === undefined) { return; }
+
+    }
+
+    settings(intersects) {
+
+        if (intersects === undefined) { return; }
+
+        let clicked = intersects[0];
+
+        if (clicked === undefined) { return; }
 
     }
 

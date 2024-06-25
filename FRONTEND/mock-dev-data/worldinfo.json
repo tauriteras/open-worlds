@@ -6,7 +6,6 @@
         "blocks": [
             {
                 "id": 1,
-                "type": "Block",
                 "position": {
                     "x": 0,
                     "y": 0
@@ -23,7 +22,7 @@
                 "data": {}
             }, 
             {
-                "id": 1,
+                "id": 0,
                 "type": "Block",
                 "position": {
                     "x": 2,
@@ -41,10 +40,46 @@
                 "data": {}
             },
             {
-                "id": 1,
+                "id": 2,
                 "type": "Block",
                 "position": {
                     "x": 2,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 3,
+                "type": "Block",
+                "position": {
+                    "x": 3,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 4,
+                "type": "Block",
+                "position": {
+                    "x": 5,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 0,
+                "type": "Block",
+                "position": {
+                    "x": 6,
+                    "y": 1
+                },
+                "data": {}
+            },
+            {
+                "id": 1,
+                "type": "Block",
+                "position": {
+                    "x": 7,
                     "y": 1
                 },
                 "data": {}
@@ -52,42 +87,42 @@
         ],
         "backgroundblocks": [
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 0,
                     "y": 0
                 }
             }, 
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 1,
                     "y": 0
                 }
             }, 
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 2,
                     "y": 0
                 }
             },
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 3,
                     "y": 0
                 }
             }, 
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 4,
                     "y": 0
                 }
             }, 
             {
-                "id": 0,
+                "id": 7,
                 "position": {
                     "x": 5,
                     "y": 0
