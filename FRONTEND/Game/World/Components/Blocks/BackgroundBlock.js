@@ -38,6 +38,9 @@ class BackgroundBlock {
         const plane = new THREE.PlaneGeometry(1, 1);
 
         const material = new THREE.MeshBasicMaterial({ 
+            map: new THREE.TextureLoader().load("../../../../public/static/images/BackgroundBlocks/" +
+             blockdata[this.id].textures[0] +
+              ".png"),
             side: THREE.DoubleSide,
             transparent: true,
          });

@@ -49,7 +49,9 @@ class Player {
         this.airTime = 0.5;
         this.timeSinceLastPunch = 3;
 
-        this.mouseAction = "Punch";
+        this.mouseAction = "Build";
+        this.selectedItemId = 3;
+        this.selectedItemType = "Block";
 
         this.object = undefined;
 
@@ -282,9 +284,33 @@ class Player {
 
         if (intersects === undefined) { return; }
 
-        let clicked = intersects[0];
+        let clicked;
+
+        for (let i = 0; i < intersects.length; i++) {
+
+            if (clicked === undefined) {
+
+                clicked = intersects[i];
+
+            }
+
+        }
+
+        console.log("clicked", clicked)
 
         if (clicked === undefined) { return; }
+
+        if (clicked.object.name === "Air") {
+
+            world.updateBlock(clicked.object.userData.index, "Block", this.selectedItemId);
+
+        }
+
+        if (clicked.object.name === "BackgroundAir") {
+
+            world.updateBlock(clicked.object.userData.index, "Background", 7);
+
+        }
 
     }
 

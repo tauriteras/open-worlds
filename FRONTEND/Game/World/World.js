@@ -58,8 +58,6 @@ class World {
                     currentIndex.position.x,
                     currentIndex.position.y
                 )  
-                
-                this.scene.add( block.createAir(i) ); 
 
             } else if( blocktype === "Door" ) {
 
@@ -101,14 +99,8 @@ class World {
        
             this.blocksData.blocks.push(block)
 
-            if (block.type != "Air") {
+            this.scene.add( block.render(i) ); 
 
-                this.scene.add( block.render(i) ); 
-
-            }
-
-
-        
         }
         
         for(let i = 0; i < world.blockdata.backgroundblocks.length; i++) {

@@ -60,19 +60,19 @@ function animate() {
 
 	if (mousedown === true && player.mouseAction === "Build") {
 
-		player.build();
+		player.build(intersects);
 
 	}
 
 	if (mousedown === true && player.mouseAction === "Plant") {
 
-		player.plant();
+		player.plant(intersects);
 
 	}
 
 	if (mousedown === true && player.mouseAction === "Settings") {
 
-		player.settings();
+		player.settings(intersects);
 
 	}
 
@@ -115,6 +115,18 @@ document.addEventListener("keydown", (e) => {
 	if (key === 'D') {
 
 		player.movement.right = true;
+
+	}
+
+	if (key === 'P') {
+
+		player.mouseAction = "Punch"
+
+	}
+
+	if (key === 'B') {
+
+		player.mouseAction = "Build"
 
 	}
 

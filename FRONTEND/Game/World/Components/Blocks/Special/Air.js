@@ -1,3 +1,5 @@
+import * as THREE from "three"
+
 import Block from "../Block";
 
 class Air extends Block {
@@ -16,7 +18,7 @@ class Air extends Block {
 
     }
 
-    createAir(index) {
+    render(index) {
 
         const plane = new THREE.PlaneGeometry(1, 1);
 
@@ -33,6 +35,9 @@ class Air extends Block {
         mesh.position.y = this.position.y;
 
         this.object = mesh;
+
+        return mesh;
+
     }
 
 }

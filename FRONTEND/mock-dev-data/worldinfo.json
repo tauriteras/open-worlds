@@ -22,7 +22,7 @@
                 "data": {}
             }, 
             {
-                "id": 1,
+                "id": 0,
                 "type": "Block",
                 "position": {
                     "x": 2,
@@ -61,25 +61,25 @@
                 "id": 4,
                 "type": "Block",
                 "position": {
-                    "x": 4,
+                    "x": 5,
                     "y": 1
                 },
                 "data": {}
             },
             {
-                "id": 5,
+                "id": 0,
                 "type": "Block",
                 "position": {
-                    "x": 4,
+                    "x": 6,
                     "y": 1
                 },
                 "data": {}
             },
             {
-                "id": 6,
+                "id": 1,
                 "type": "Block",
                 "position": {
-                    "x": 4,
+                    "x": 7,
                     "y": 1
                 },
                 "data": {}
