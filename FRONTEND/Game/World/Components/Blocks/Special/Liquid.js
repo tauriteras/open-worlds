@@ -1,13 +1,13 @@
 import * as THREE from "three"
-import Block from "./Block";
+import Block from "../Block";
 
-class Water extends Block {
+class Liquid extends Block {
 
     constructor(id, x, y) {
 
         super()
 
-        this.id = id;
+        this.id = id
 
         this.position = {
 
@@ -21,4 +21,4 @@ class Water extends Block {
 
 }
 
-export default Water;
+export default Liquid;

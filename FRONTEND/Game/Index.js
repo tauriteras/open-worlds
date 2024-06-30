@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { io } from 'socket.io-client'
+
 import Camera from '../Game/Camera/Camera'
 import World from './World/World';
 import Player from './Player/Player';
@@ -19,70 +21,90 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 
 camera.initialize()
 
+let player;
 let world = new World(scene);
-world.load();
 
-let player = new Player(scene);
-player.spawn();
+const socket = io('http://localhost:3069')
+
+socket.on('connect', () => {
+	console.log("Connected to server!")
+})
+
+
+socket.on('worldData', (worldData) => {
+
+	console.log('World data received!', worldData)
+
+	world.load(worldData);
+
+	player = new Player(scene, world.entryPos.x, world.entryPos.y);
+
+	console.log(world, player)
+
+})
 
 function animate() {
 
-	if (player.movement.jump == true) {
+	if (player != undefined) {
 
-		player.jump(dt)
+		if (player.movement.jump == true) {
 
-	}
-
-	if (player.movement.left == true) {
-
-		player.moveLeft(dt)
-
-	}
-
-	if (player.movement.right == true) {
-
-		player.moveRight(dt)
-
-	}
-
-	if (player.movement.down == true) {
-
-		player.moveDown(dt)
-
-	}
+			player.jump(dt)
 	
+		}
+	
+		if (player.movement.left == true) {
+	
+			player.moveLeft(dt)
+	
+		}
+	
+		if (player.movement.right == true) {
+	
+			player.moveRight(dt)
+	
+		}
+	
+		if (player.movement.down == true) {
+	
+			player.moveDown(dt)
+	
+		}
+		
+	
+		if (mousedown === true && player.mouseAction === "Punch") {
+	
+			player.punch(intersects);
+	
+		}
+	
+		if (mousedown === true && player.mouseAction === "Build") {
+	
+			player.build(intersects);
+	
+		}
+	
+		if (mousedown === true && player.mouseAction === "Plant") {
+	
+			player.plant(intersects);
+	
+		}
+	
+		if (mousedown === true && player.mouseAction === "Settings") {
+	
+			player.settings(intersects);
+	
+		}
 
-	if (mousedown === true && player.mouseAction === "Punch") {
-
-		player.punch(intersects);
-
-	}
-
-	if (mousedown === true && player.mouseAction === "Build") {
-
-		player.build(intersects);
-
-	}
-
-	if (mousedown === true && player.mouseAction === "Plant") {
-
-		player.plant(intersects);
-
-	}
-
-	if (mousedown === true && player.mouseAction === "Settings") {
-
-		player.settings(intersects);
+		camera.update(player.position.x, player.position.y)
+	
+		player.update(dt);
 
 	}
 
 	requestAnimationFrame( animate );
 
-	camera.update(player.position.x, player.position.y)
-
 	dt = clock.getDelta();
-
-	player.update(dt);
 
 	raycaster.setFromCamera( pointer, camera.cameraObject );
 	intersects = raycaster.intersectObjects( scene.children );
@@ -158,6 +180,20 @@ document.addEventListener("keyup", (e) => {
 
 		player.movement.right = false;
 
+	}
+
+	if (key === 'L') {
+
+		console.log('Requesting world data...')
+
+		socket.emit('getworld')
+
+	}
+
+	if(key === 'O') {
+
+		player.spawn();
+		
 	}
 
 })

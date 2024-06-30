@@ -1,9 +1,9 @@
 import * as THREE from "three"
 
-import BackgroundBlock from "../BackgroundBlock";
+import Block from "./Block";
 
-class BackgroundAir extends BackgroundBlock {
-    
+class Air extends Block {
+
     constructor(x, y) {
 
         super()
@@ -15,6 +15,7 @@ class BackgroundAir extends BackgroundBlock {
             y: y
 
         };
+
     }
 
     render(index) {
@@ -24,11 +25,11 @@ class BackgroundAir extends BackgroundBlock {
         const material = new THREE.MeshBasicMaterial({ 
             map: new THREE.TextureLoader().load("../../../../../public/static/images/Blocks/Air.png"),
             transparent: true,
-        });
+         });
 
         const mesh = new THREE.Mesh(plane, material);
 
-        mesh.name = "BackgroundAir";
+        mesh.name = "Air";
         mesh.userData.index = index;
         mesh.position.x = this.position.x;
         mesh.position.y = this.position.y;
@@ -38,6 +39,7 @@ class BackgroundAir extends BackgroundBlock {
         return mesh;
 
     }
+
 }
 
-export default BackgroundAir;
+export default Air

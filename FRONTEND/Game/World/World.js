@@ -1,119 +1,140 @@
-import world from "../../mock-dev-data/worldinfo.json"
-import blockdata from "../../mock-dev-data/blockinfo.json"
+import * as THREE from 'three'
+
+import blockfactsheet from "../../mock-dev-data/blockinfo.json"
 
 import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
-import BackgroundAir from "./Components/Blocks/Special/BackgroundAir"
+import BackgroundAir from "./Components/Blocks/BackgroundAir"
 import Door from "./Components/Blocks/Door"
 import EntryPoint from "./Components/Blocks/EntryPoint"
 import Sign from "./Components/Blocks/Sign"
 import Tree from "./Components/Blocks/Tree"
-import Air from "./Components/Blocks/Special/Air"
+import Air from "./Components/Blocks/Air"
+import Liquid from "./Components/Blocks/Special/Liquid"
 
 class World {
 
     constructor(scene) {
 
-        this.name = world.name
+        this.scene = scene;
 
-        this.owner = world.owner
+        this.entryPos = {
+            x: undefined,
+            y: undefined
+        }
 
-        this.admins = world.admins
+        this.modifiers = undefined;
+
+        this.size = undefined;
 
         this.blocksData = {
             blocks: [],
-            backgroundBlocks: [],
-            trees: []
-        }
+            backgroundBlocks: []
+        };
 
-        this.hasWeatherMachine = false;
-        this.weather = "Sunny";
+        this.customWeather = undefined;
 
-
-        this.scene = scene;
     }
 
-    load() {
+    load(worldData) {
 
-        for(let i = 0; i < world.blockdata.blocks.length; i++) {
-    
-            let block;
-            let currentIndex = world.blockdata.blocks[i]
-            let blocktype = blockdata[currentIndex.id].type
+        console.log('Loading world')
 
-            if ( blocktype === "Block" ) {
+        let worldSize = worldData.size.width * worldData.size.height
+        this.size = worldData.size
 
-                console.log("Block!")
+        let x = 1;
+        let y = 1;
 
-                block = new Block(
-                    currentIndex.id,
-                    currentIndex.position.x,
-                    currentIndex.position.y);
+        for(let i = 0; i < worldSize; i++) {
 
-            } else if( blocktype === "Air" ) {
+            let block, backgroundblock;
 
-                console.log("Air!")
+            let blockId = worldData.blocks[i][0]
+            //let bgId = worldData.backgroundBlocks[i][0];
 
-                block = new Air(
-                    currentIndex.position.x,
-                    currentIndex.position.y
-                )  
+            let blocktype = blockfactsheet[blockId].type;
 
-            } else if( blocktype === "Door" ) {
+            switch(blocktype) {
+                case "Air":
+                    block = new Air(x, y);
+                    break;
+                case "Block":
+                    block = new Block(blockId, x, y);
+                    break;
+                case "Door":
+                    block = new Door(blockId, x, y);
+                    break;
+                case "Sign":
+                    block = new Sign(blockId, x, y);
+                    break;
+                case "EntryPoint":
+                    block = new EntryPoint(blockId, x, y);
+                    this.entryPos.x = x;
+                    this.entryPos.y = y;
+                    break;
+                case "Tree":
+                    block = new Tree(blockId, x, y);
+                    break;
+                case "Liquid":
+                    block = new Liquid(blockId, x, y);
+                    break;
+            }
 
-                console.log("Door!")
+            if (worldData.freshGeneration === true) {
 
-                block = new Door(
-                    currentIndex.id,
-                    currentIndex.position.x,
-                    currentIndex.position.y);
+                if(y <= 23) {
+                    backgroundblock = new BackgroundBlock(7, x, y)
+                } else {
+                    backgroundblock = new BackgroundAir(x, y)
+                }
 
-            } else if( blocktype === "EntryPoint" ) {
+            } else {
 
-                console.log("EntryPoint!")
-
-                block = new EntryPoint(
-                    currentIndex.id,
-                    currentIndex.position.x,
-                    currentIndex.position.y);
-
-            } else if( blocktype === "Sign" ) {
-
-                console.log("Sign!")
-
-                block = new Sign(
-                    currentIndex.id,
-                    currentIndex.position.x,
-                    currentIndex.position.y);
-
-            } else if( blocktype === "Tree" ) {
-
-                console.log("Tree!")
-
-                block = new Tree(
-                    currentIndex.id,
-                    currentIndex.position.x,
-                    currentIndex.position.y);
+                if (bgId != 0) {
+                    backgroundblock = new BackgroundBlock(bgId, x, y)
+                } else {
+                    backgroundblock = new BackgroundAir(x, y)
+                }
 
             }
        
             this.blocksData.blocks.push(block)
+            this.blocksData.backgroundBlocks.push(backgroundblock)
 
+            this.scene.add ( backgroundblock.render(i) ) 
             this.scene.add( block.render(i) ); 
 
+            if (x === worldData.size.width) {
+                x = 0;
+                y++;
+            }
+        
+            x++; 
+
         }
-        
-        for(let i = 0; i < world.blockdata.backgroundblocks.length; i++) {
-        
-            let backgroundblock = new BackgroundBlock(
-                world.blockdata.backgroundblocks[i].id,
-                world.blockdata.backgroundblocks[i].position.x,
-                world.blockdata.backgroundblocks[i].position.y);
-        
-            this.blocksData.backgroundBlocks.push(backgroundblock)
-        
-            this.scene.add( backgroundblock.render(i) );
-        
+
+        console.log("World loaded!")
+
+        for (let i = 0; i < this.blocksData.blocks.length; i++) {
+
+            let block = this.blocksData.blocks[i];
+
+            block.blocksAround.top = this.blocksData.blocks[i + this.size.width];
+            block.blocksAround.bottom = this.blocksData.blocks[i - this.size.width];
+            block.blocksAround.right = this.blocksData.blocks[i + 1];
+            block.blocksAround.left = this.blocksData.blocks[i - 1];
+
+            if (block.blocksAround.top != undefined && 
+                block.blocksAround.top.id === block.id &&
+                block.id === 2)
+                 {
+                block.object.material.map = new THREE.TextureLoader().load(
+                    '../../public/static/images/Blocks/' 
+                    + blockfactsheet[block.id].textures[1] 
+                    + '.png')
+            }
+
         }
 
     }
@@ -121,7 +142,6 @@ class World {
     updateBlock(index, newType, newId) {
 
         let blockToUpdate;
-
         let newBlock;
 
         switch(newType) {
@@ -152,6 +172,10 @@ class World {
 
         this.scene.remove( blockToUpdate.object );
         this.scene.add( newBlock.render(index) );
+
+    }
+
+    update() {
 
     }
 
