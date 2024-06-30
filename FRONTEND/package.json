@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "expressjs": "^1.0.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "three": "^0.164.1",
     "three.interactive": "^1.7.0"
   }

@@ -18,6 +18,13 @@ class Block {
 
         }
 
+        this.blocksAround = {
+            top: undefined,
+            bottom: undefined,
+            right: undefined,
+            left: undefined
+        }
+
         this.isForeground = isForeground || false;
 
         this.collisions = undefined;

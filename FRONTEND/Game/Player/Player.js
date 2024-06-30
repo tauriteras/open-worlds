@@ -5,7 +5,7 @@ import { world } from "../Index";
 
 class Player {
 
-    constructor(scene) {
+    constructor(scene, x, y) {
 
         this.name = player.name;
 
@@ -18,8 +18,8 @@ class Player {
         this.jumpStrenght = 3.75;
 
         this.position = {
-            x: 1,
-            y: 3,
+            x: x,
+            y: y,
             z: 0.0100,
             roundedX: 0,
             roundedY: 1
@@ -59,7 +59,7 @@ class Player {
 
     }
 
-    spawn(scene) {
+    spawn() {
 
         const plane = new THREE.PlaneGeometry(this.width, this.height);
 
@@ -88,13 +88,15 @@ class Player {
 
         const player = new THREE.Mesh(playerPlane, playerMaterial);
 
-         hitbox.add(player)
+        hitbox.add(player)
 
         this.scene.add(hitbox)
 
     }
 
     update(dt) {
+
+        if (this.object === undefined) { return; }
 
         this.timeSinceLastPunch += dt;
 
