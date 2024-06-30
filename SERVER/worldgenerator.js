@@ -1,3 +1,5 @@
+// This function is hosted on google cloud functions
+
 export function generateWorld() {
 
     let x = 1;

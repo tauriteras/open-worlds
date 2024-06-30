@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 import { io } from 'socket.io-client'
 
 import Camera from '../Game/Camera/Camera'
@@ -35,13 +34,48 @@ socket.on('worldData', (worldData) => {
 
 	console.log('World data received!', worldData)
 
+	loadWorld(worldData);
+
+})
+
+async function getWorldData() {
+
+	const url = "https://worldgenerator-hwqyt4hhfq-lz.a.run.app";
+
+	console.log("Fetching data from: " + url)
+
+	try {
+
+		const response = await fetch(url, {
+			mode: 'no-cors'
+		});
+
+		console.log(response)
+
+		if (!response.ok) {
+		  throw new Error(`Response status: ${response.status}`);
+		}
+
+		const json = await response.json();
+		console.log(json);
+
+	  } catch (error) {
+
+		console.log("Error getting world: " + error.message)
+
+	  }
+
+}
+
+function loadWorld(worldData) {
+
 	world.load(worldData);
 
 	player = new Player(scene, world.entryPos.x, world.entryPos.y);
 
 	console.log(world, player)
 
-})
+}
 
 function animate() {
 
@@ -184,9 +218,15 @@ document.addEventListener("keyup", (e) => {
 
 	if (key === 'L') {
 
-		console.log('Requesting world data...')
+		console.log('Requesting world data...', window.location.href.toString())
 
-		socket.emit('getworld')
+		let localURL = new URL("http://localhost:3069")
+
+		if (window.location.href == localURL) {
+			socket.emit("getworld")
+		} else {
+			getWorldData()
+		}
 
 	}
 
