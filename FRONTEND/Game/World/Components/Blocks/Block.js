@@ -6,9 +6,9 @@ class Block {
 
     constructor(id, x, y, isForeground, data) {
 
-        this.id = id || 0;
+        this.id = id;
 
-        this.type = blockdata[this.id].type;
+        this.type = "Block";
 
         this.position = {
 
@@ -39,6 +39,8 @@ class Block {
 
         this.hardness = undefined;
         this.isBreakable = undefined;
+
+        this.locked = false;
 
     }
 
@@ -111,6 +113,25 @@ class Block {
 
         this.object.add(mesh);
 
+    }
+
+    createLockOverlay(reached) {
+
+        reached.forEach(block => {
+
+            const plane = new THREE.PlaneGeometry(1, 1);
+
+            const material = new THREE.MeshBasicMaterial({ 
+                color: new THREE.Color("green"),
+                transparent: true,
+             });
+    
+            const mesh = new THREE.Mesh(plane, material);
+            
+            block.object.add( mesh )
+
+        });
+        
     }
 };
 

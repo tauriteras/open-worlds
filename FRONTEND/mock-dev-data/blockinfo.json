@@ -19,7 +19,7 @@
         "name": "Bedrock",
         "type": "Block",
 
-        "hardness": 0,
+        "hardness": 3,
         "breakable": false,
 
         "collisions": {
@@ -119,5 +119,14 @@
         "breakable": true,
 
         "textures": ["cavewall"]
+    },
+    "8": {
+        "name": "Small Lock",
+        "type": "Lock",
+
+        "hardness": 12,
+        "breakable": true,
+
+        "textures": ["smalllock"]
     }
 }

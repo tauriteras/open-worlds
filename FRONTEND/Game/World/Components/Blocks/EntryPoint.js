@@ -9,6 +9,8 @@ class EntryPoint extends Block {
 
         this.id = id;
 
+        this.type = "EntryPoint";
+
         this.position = {
 
             x: x,

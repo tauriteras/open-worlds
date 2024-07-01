@@ -49,7 +49,7 @@ class Player {
         this.airTime = 0.5;
         this.timeSinceLastPunch = 3;
 
-        this.mouseAction = "Build";
+        this.mouseAction = "Punch";
         this.selectedItemId = 3;
         this.selectedItemType = "Block";
 
@@ -113,9 +113,7 @@ class Player {
                 &&
                 ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2)) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2)) ) )
                 &&
-                block.id != 0
-                &&
-                block.type != "Air"
+                block.collisions.top === true
             ) {
 
                 this.airTime = 0;
@@ -152,9 +150,7 @@ class Player {
                 &&
                 ( ( (block.position.y - 0.45 ) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.45) > (this.position.y - (this.height / 2) + 0.1 ) ) )
                 &&
-                block.id != 0
-                &&
-                block.type != "Air"
+                block.collisions.right === true
             ) {
 
                 console.log(block.position, this.position)
@@ -180,9 +176,7 @@ class Player {
                 &&
                 ( ( (block.position.y - 0.5) < (this.position.y - (this.height / 2) + 0.1 ) ) && ( (block.position.y + 0.5) > (this.position.y - (this.height / 2) + 0.1 ) ) )
                 &&
-                block.id != 0
-                &&
-                block.type != "Air"
+                block.collisions.left === true
             ) {
 
                 console.log(block.position, this.position)
@@ -247,6 +241,8 @@ class Player {
 
             }
 
+            console.log("clicked", world.blocksData.blocks[clicked.object.userData.index])
+
         }
 
         if (clicked.object.name === "BackgroundBlock") {
@@ -269,16 +265,16 @@ class Player {
 
             }
 
+            console.log("clicked", world.blocksData.backgroundBlocks[clicked.object.userData.index])
+
 
         }
 
         if (clicked.object.name.includes("Player_")) {
 
-            console.log(clicked.object.name, clicked.object.userData)
+            console.log(this)
 
         }
-        
-        console.log("clicked", clicked, world.blocksData.backgroundBlocks[clicked.object.userData.index])
 
     }
 

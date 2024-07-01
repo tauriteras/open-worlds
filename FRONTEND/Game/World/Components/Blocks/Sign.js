@@ -8,6 +8,8 @@ class Sign extends Block {
         super()
 
         this.id = id;
+        
+        this.type = "Sign";
 
         this.position = {
 

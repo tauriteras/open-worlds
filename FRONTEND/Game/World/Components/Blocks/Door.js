@@ -9,6 +9,8 @@ class Door extends Block {
 
         this.id = id;
 
+        this.type = "Door";
+
         this.position = {
 
             x: x,

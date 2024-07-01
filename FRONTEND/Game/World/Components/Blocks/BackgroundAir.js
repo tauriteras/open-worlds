@@ -8,6 +8,10 @@ class BackgroundAir extends BackgroundBlock {
 
         super()
 
+        this.id = 0;
+
+        this.type = "BackgroundAir";
+
         this.position = {
 
             x: x,

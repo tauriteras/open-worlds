@@ -1,91 +1,67 @@
 import * as THREE from "three"
 
-import { world } from "../../../Index";
+import player from "../../../../../mock-dev-data/playerinfo.json"
+
 import Block from "../Block";
 
 class SmallLock extends Block {
 
-    constructor(x, y) {
+    constructor(id, x, y) {
 
-        this.owner = "SampleName";
+        super()
+
+        this.id = id;
+
+        this.type = "Lock";
+
+        this.owner = player.name;
+
+        this.data = {
+            hasAccess: undefined,
+            ignoreEmptyAir: false,
+            openToPublic: false
+        };
 
         this.position = {
             x: x,
             y: y
         }
 
-        this.measurements = {
-            radius: 5,
-            blockCount: 10
-        }
-
         this.object = undefined;
+
+        this.size = 0;
+        this.maxSize = 50;
+        this.lockedTiles = [];
 
     }
 
-    place(scene) {
+    render(index) {
 
         const plane = new THREE.PlaneGeometry(1, 1);
 
-        const material = new THREE.MeshBasicMaterial({ 
-            color: new THREE.Color("brown"),
+        const material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
             transparent: true,
          });
 
         const mesh = new THREE.Mesh(plane, material);
+
+         if(this.owner === player.name) {
+            console.log("Owner of " + this)
+            mesh.material.map = new THREE.TextureLoader().load(
+                "../../../../../public/static/images/Locks/SmallLock_Owner.png");
+         }
         
         mesh.name = 'SmallLock';
+
+        mesh.userData.index = index;
 
         mesh.position.x = this.position.x;
         mesh.position.y = this.position.y;
 
         this.object = mesh;
 
-        this.findLockableArea(scene);
-
         return mesh;
-
-    }
-
-    findLockableArea(scene) {
-
-        console.log("Lock")
-
-        let startingX = this.position.x - 2;
-        let startingY = this.position.y;
-
-        for (let i = 0; i < 10; i++) {
-
-            console.log(startingX, startingY)
-
-            const plane = new THREE.PlaneGeometry(1, 1);
-
-            const material = new THREE.MeshBasicMaterial({ 
-                color: new THREE.Color("brown"),
-                side: THREE.DoubleSide,
-                transparent: true,
-            });
-
-            const mesh = new THREE.Mesh(plane, material);
-
-            mesh.position.x = startingX;
-            mesh.position.y = startingY;
-
-            scene.add(mesh)
-
-
-            if (startingX == this.position.x + 2) {
-
-                startingX = this.position.x - 3;
-
-                startingY++;
-
-            }
-
-            startingX++;
-
-        }
 
     }
 

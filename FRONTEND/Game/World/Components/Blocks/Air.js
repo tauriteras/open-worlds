@@ -4,9 +4,13 @@ import Block from "./Block";
 
 class Air extends Block {
 
-    constructor(x, y) {
+    constructor(id, x, y) {
 
         super()
+
+        this.id = id;
+
+        this.type = "Air";
 
         this.position = {
 
@@ -15,6 +19,13 @@ class Air extends Block {
             y: y
 
         };
+
+        this.collisions = {
+            top: false,
+            bottom: false,
+            left: false,
+            right: false
+        }
 
     }
 

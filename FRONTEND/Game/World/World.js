@@ -2,6 +2,8 @@ import * as THREE from 'three'
 
 import blockfactsheet from "../../mock-dev-data/blockinfo.json"
 
+import { world } from '../Index.js'
+
 import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
 import BackgroundAir from "./Components/Blocks/BackgroundAir"
@@ -11,6 +13,7 @@ import Sign from "./Components/Blocks/Sign"
 import Tree from "./Components/Blocks/Tree"
 import Air from "./Components/Blocks/Air"
 import Liquid from "./Components/Blocks/Special/Liquid"
+import SmallLock from './Components/Blocks/Locks/SmallLock'
 
 class World {
 
@@ -34,6 +37,7 @@ class World {
 
         this.customWeather = undefined;
 
+        this.loadingDone = false;
     }
 
     load(worldData) {
@@ -55,9 +59,11 @@ class World {
 
             let blocktype = blockfactsheet[blockId].type;
 
+            console.log(blockId)
+
             switch(blocktype) {
                 case "Air":
-                    block = new Air(x, y);
+                    block = new Air(blockId, x, y);
                     break;
                 case "Block":
                     block = new Block(blockId, x, y);
@@ -78,6 +84,12 @@ class World {
                     break;
                 case "Liquid":
                     block = new Liquid(blockId, x, y);
+                    break;
+                case "Lock":
+                    if (blockId === 8) {
+                        block = new SmallLock(blockId, x, y);
+                        console.log("Small Lock", block);
+                    }
                     break;
             }
 
@@ -120,10 +132,25 @@ class World {
 
             let block = this.blocksData.blocks[i];
 
-            block.blocksAround.top = this.blocksData.blocks[i + this.size.width];
-            block.blocksAround.bottom = this.blocksData.blocks[i - this.size.width];
-            block.blocksAround.right = this.blocksData.blocks[i + 1];
-            block.blocksAround.left = this.blocksData.blocks[i - 1];
+            block.blocksAround.top = world.blocksData.blocks[block.object.userData.index + world.size.width];
+
+            block.blocksAround.bottom = world.blocksData.blocks[block.object.userData.index - world.size.width];
+
+            if(world.blocksData.blocks[block.object.userData.index + 1] != undefined) {
+                if(world.blocksData.blocks[block.object.userData.index + 1].position.x === (block.position.x + 1)) {
+                    block.blocksAround.right = world.blocksData.blocks[block.object.userData.index + 1];
+                }
+            } else {
+                block.blocksAround.right = undefined;
+            }
+
+            if(world.blocksData.blocks[block.object.userData.index - 1] != undefined) {
+                if(world.blocksData.blocks[block.object.userData.index - 1].position.x === (block.position.x - 1)) {
+                    block.blocksAround.left = world.blocksData.blocks[block.object.userData.index - 1];
+                }
+            } else {
+                block.blocksAround.left = undefined
+            }
 
             if (block.blocksAround.top != undefined && 
                 block.blocksAround.top.id === block.id &&
@@ -133,6 +160,10 @@ class World {
                     '../../public/static/images/Blocks/' 
                     + blockfactsheet[block.id].textures[1] 
                     + '.png')
+            }
+
+            if (block.type === "Lock") {
+                findLockableTiles(block);
             }
 
         }
@@ -175,10 +206,75 @@ class World {
 
     }
 
-    update() {
+};
+
+async function findLockableTiles(lock) {
+
+    let frontier = [];
+    frontier.push(lock);
+
+    let reached = [lock];
+    let neighbours = [];
+
+    let i = 0;
+
+    while (!(frontier.length === 0)) {   
+
+        let current = frontier[i];
+
+        let surrounding = [
+            current.blocksAround.top,
+            current.blocksAround.left,
+            current.blocksAround.right,
+            current.blocksAround.bottom
+        ];;
+
+        // Kontrolli igat naaber plokki
+        surrounding.forEach(block => {
+
+            let alreadyReached = false;
+
+            reached.forEach(reachedBlock => {
+                if (block === reachedBlock) {
+                    alreadyReached = true;
+                }
+            })
+
+            if (!alreadyReached && block != undefined) {
+
+                if (
+                    (
+                    (block.locked === false &&
+                    block.isBreakable === true)
+                    &&
+                    block.type != "EntryPoint" 
+                    ||
+                    block.type === "Air") 
+                    &&
+                    lock.size < lock.maxSize) {
+            
+                        frontier.push(block);
+                        reached.push(block);
+
+                        lock.size++;
+            
+                }
+            }
+
+        });
+
+        i++;
+
+        if (i > lock.maxSize || lock.size === lock.maxSize) {
+
+            frontier = [];
+
+        }
 
     }
 
-};
+    lock.createLockOverlay(reached);
+
+}
 
 export default World;
