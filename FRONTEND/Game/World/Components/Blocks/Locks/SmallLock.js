@@ -30,7 +30,7 @@ class SmallLock extends Block {
         this.object = undefined;
 
         this.size = 0;
-        this.maxSize = 50;
+        this.maxSize = 10;
         this.lockedTiles = [];
 
     }

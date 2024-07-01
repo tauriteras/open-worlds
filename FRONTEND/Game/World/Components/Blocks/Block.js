@@ -123,6 +123,7 @@ class Block {
 
             const material = new THREE.MeshBasicMaterial({ 
                 color: new THREE.Color("green"),
+                opacity: 0.1,
                 transparent: true,
              });
     

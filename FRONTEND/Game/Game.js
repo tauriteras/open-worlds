@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { io } from 'socket.io-client'
 
-import Camera from '../Game/Camera/Camera'
+import Camera from './Camera/Camera'
 import World from './World/World';
 import Player from './Player/Player';
 
@@ -263,8 +263,12 @@ document.addEventListener("pointerleave", () => {
 
 })
 
-document.body.appendChild( renderer.domElement );
+function loadGameWorld() {
 
-animate();
+	animate();
 
-export { world }
+	document.body.appendChild( renderer.domElement );
+
+}
+
+export { world, loadGameWorld }

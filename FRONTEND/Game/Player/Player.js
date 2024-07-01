@@ -1,7 +1,7 @@
 import * as THREE from "three"
 
 import player from "../../mock-dev-data/playerinfo.json"
-import { world } from "../Index";
+import { world } from "../Game";
 
 class Player {
 
