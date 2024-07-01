@@ -63,6 +63,10 @@ export function generateWorld() {
                 block = [6, {}]
             }
 
+            if (y === 25 && x === entryX) {
+                block = [8, {}]
+            }
+
             worldData.blocks.push(block)
         }
 

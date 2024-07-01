@@ -8,7 +8,7 @@ class BackgroundBlock {
 
         this.id = id || 0;
 
-        this.type = undefined;
+        this.type = "BackgroundBlock";
 
         this.position = {
 

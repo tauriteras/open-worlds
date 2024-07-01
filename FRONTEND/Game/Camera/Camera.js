@@ -7,7 +7,7 @@ class Camera {
         this.position = {
             x: x,
             y: y,
-            z: 5
+            z: 15
         }
 
         this.cameraObject = undefined;

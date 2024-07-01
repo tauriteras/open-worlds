@@ -10,6 +10,8 @@ class Tree extends Block {
 
         this.id = id;
 
+        this.type = "Tree";
+
         this.position = {
 
             x: x,
