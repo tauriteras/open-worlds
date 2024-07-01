@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import blockfactsheet from "../../mock-dev-data/blockinfo.json"
 
-import { world } from '../Index.js'
+import { world } from '../Game.js'
 
 import Block from "./Components/Blocks/Block"
 import BackgroundBlock from "./Components/Blocks/BackgroundBlock"
