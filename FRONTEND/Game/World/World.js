@@ -222,46 +222,61 @@ async function findLockableTiles(lock) {
 
         let current = frontier[i];
 
-        let surrounding = [
-            current.blocksAround.top,
-            current.blocksAround.left,
-            current.blocksAround.right,
-            current.blocksAround.bottom
-        ];;
+        if (current != undefined) { 
 
-        // Kontrolli igat naaber plokki
-        surrounding.forEach(block => {
+            neighbours = [
+                current.blocksAround.bottom,
+                current.blocksAround.left,
+                current.blocksAround.top,
+                current.blocksAround.right
 
-            let alreadyReached = false;
+            ];;
 
-            reached.forEach(reachedBlock => {
-                if (block === reachedBlock) {
-                    alreadyReached = true;
-                }
-            })
+            // Kontrolli igat naaber plokki
+            neighbours.forEach(block => {
 
-            if (!alreadyReached && block != undefined) {
+                let alreadyReached = false;
 
-                if (
-                    (
-                    (block.locked === false &&
-                    block.isBreakable === true)
-                    &&
-                    block.type != "EntryPoint" 
-                    ||
-                    block.type === "Air") 
-                    &&
-                    lock.size < lock.maxSize) {
-            
+                reached.forEach(reachedBlock => {
+                    if (block === reachedBlock) {
+                        alreadyReached = true;
+                    }
+                })
+
+                if (!alreadyReached && block != undefined) {
+
+                    if (
+                        (block.blocksAround.bottom != undefined && block.blocksAround.bottom.locked === true) ||
+                        (block.blocksAround.left != undefined && block.blocksAround.left.locked === true) ||
+                        (block.blocksAround.top != undefined && block.blocksAround.top.locked === true) ||
+                        (block.blocksAround.right != undefined && block.blocksAround.bottom.locked === true)
+                    ) {
                         frontier.push(block);
-                        reached.push(block);
+                    }
 
-                        lock.size++;
-            
+                    if (
+                        (
+                        (block.locked === false &&
+                        block.isBreakable === true)
+                        &&
+                        block.type != "EntryPoint" 
+                        ||
+                        block.type === "Air") 
+                        &&
+                        lock.size < lock.maxSize) {
+
+                            block.locked = true;
+                
+                            reached.push(block);
+
+                            lock.size++;
+                
+                    }
+
                 }
-            }
 
-        });
+            });
+        }
 
         i++;
 

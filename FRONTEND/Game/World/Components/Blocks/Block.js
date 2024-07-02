@@ -144,7 +144,7 @@ class Block {
              {
             block.object.material.map = new THREE.TextureLoader().load(
                 '../../public/static/images/Blocks/' 
-                + blockdata[block.id].textures[1] 
+                + blockdata[block.id].textures[0] 
                 + '.png')
         }
 
