@@ -5,6 +5,15 @@ class WorldLock extends Block {
 
     constructor() {
 
+        super()
+
+        this.collisions = {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true
+        }
+
     }
 
 };

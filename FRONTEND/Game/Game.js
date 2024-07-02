@@ -130,6 +130,10 @@ function animate() {
 	
 		}
 
+		if (camera.zooming === true) {
+			camera.position.z += (camera.zoomSpeed * camera.zoomDirection) * dt
+		}
+
 		camera.update(player.position.x, player.position.y)
 	
 		player.update(dt);
@@ -186,6 +190,28 @@ document.addEventListener("keydown", (e) => {
 
 	}
 
+	if (key === '-') {
+
+		camera.zooming = false;
+
+		if (camera.position.z < 10) {
+			camera.zoomDirection = 1;
+			camera.zooming = true;
+		}
+
+	}
+
+	if (key === '+') {
+
+		camera.zooming = false;
+
+		if (camera.position.z > 3) {
+			camera.zoomDirection = -1;
+			camera.zooming = true;
+		}
+		
+	}
+
 })
 
 document.addEventListener("keyup", (e) => {
@@ -234,6 +260,12 @@ document.addEventListener("keyup", (e) => {
 
 		player.spawn();
 		
+	}
+
+	if (key === '-' || key === '+') {
+
+		camera.zooming = false;
+
 	}
 
 })

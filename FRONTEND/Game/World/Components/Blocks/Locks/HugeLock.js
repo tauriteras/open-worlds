@@ -24,6 +24,13 @@ class HugeLock extends Block {
             y: y
         }
 
+        this.collisions = {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true
+        }
+
         this.object = undefined;
 
         this.size = 0;

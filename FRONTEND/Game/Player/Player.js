@@ -239,6 +239,8 @@ class Player {
                 
                 world.updateBlock(blockObject.object.userData.index, "Air");
 
+                blockObject.updateBlocksAround();
+
             }
 
             console.log("clicked", world.blocksData.blocks[clicked.object.userData.index])
