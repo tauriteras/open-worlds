@@ -134,6 +134,22 @@ class Block {
         });
         
     }
+
+    updateBlocksAround() {
+
+        let block = this.blocksAround.bottom;
+
+        if (block.blocksAround.top.id === block.id &&
+            block.id === 2)
+             {
+            block.object.material.map = new THREE.TextureLoader().load(
+                '../../public/static/images/Blocks/' 
+                + blockdata[block.id].textures[0] 
+                + '.png')
+        }
+
+        
+    }
 };
 
 export default Block;

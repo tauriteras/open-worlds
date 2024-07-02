@@ -27,10 +27,17 @@ class SmallLock extends Block {
             y: y
         }
 
+        this.collisions = {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true
+        }
+
         this.object = undefined;
 
         this.size = 0;
-        this.maxSize = 10;
+        this.maxSize = 9;
         this.lockedTiles = [];
 
     }
@@ -60,6 +67,8 @@ class SmallLock extends Block {
         mesh.position.y = this.position.y;
 
         this.object = mesh;
+
+        this.locked = true;
 
         return mesh;
 

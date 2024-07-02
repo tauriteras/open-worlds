@@ -7,10 +7,14 @@ class Camera {
         this.position = {
             x: x,
             y: y,
-            z: 15
+            z: 5
         }
 
         this.cameraObject = undefined;
+
+        this.zooming = false;
+        this.zoomSpeed = 4.5;
+        this.zoomDirection = 1;
         
     }
 
@@ -30,6 +34,8 @@ class Camera {
 
         this.cameraObject.position.x = playerX;
         this.cameraObject.position.y = playerY;
+
+        this.cameraObject.position.z = this.position.z;
 
     }
 
