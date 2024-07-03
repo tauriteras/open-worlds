@@ -5,7 +5,7 @@ todo - write a readme
 
 !! BRANCH INFO !!
 
-- OpenWorlds - main branc, "production"
+- OpenWorlds - main branch, "production"
 
 - "developing-" prefix branch - developing work gets done on one of these branches
 
